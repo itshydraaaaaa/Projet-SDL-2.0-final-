@@ -1,94 +1,95 @@
-# Lot 5 — Enigme 1 : QCM (Multiple Choice Quiz Module)
+# Antigravity — ESPRIT Projet 1A (2020-2021)
 
-**Branch:** `feature/lot5-enigme1`
-**Total points:** 8 pts
-**Files you own:** `enigme1.h`, `enigme1.c`, `questions.txt`
-**Do NOT touch:** `main.c`, `common.h`, or any other lot's files.
+A 2D side-scrolling serious game in C with SDL2.
 
----
+## Team lot assignments
 
-## What you need to do
+| Lot | Module | Branch | Owner |
+|-----|--------|--------|-------|
+| Lot 1 | `lot1_joueur/` — Player | `feature/lot1-joueur` | |
+| **Lot 2** | `lot2_background/` — **Background** | `feature/lot2-background` | **YOU** |
+| Lot 3 | `lot3_npc/` — Enemies | `feature/lot3-npc` | |
+| Lot 4 | `lot4_minimap/` — Minimap | `feature/lot4-minimap` | |
+| Lot 5 | `lot5_enigme1/` — QCM Riddles | `feature/lot5-enigme1` | |
+| Lot 6 | `lot6_enigme2/` — Puzzle Riddles | `feature/lot6-enigme2` | |
 
-Your module manages the QCM (multiple choice) riddle system. When the player collides
-with an enigme trigger in the world, `backg->niveau` is set to `"Enigme"` — your module
-then takes over display and resolution.
+## Build & Run
 
-### Task 5.1 — Fill questions.txt (1 pt)
-The file `questions.txt` already contains 12 starter questions.
-Add at least 10 more relevant to your game theme.
-Format: one question per line, fields separated by `|`:
+### Windows (MSYS2 / MinGW-w64)
+1. Install [MSYS2](https://www.msys2.org/).
+2. Open the **MSYS2 MinGW 64-bit** terminal and install the C compiler and SDL2 dependencies:
+   ```bash
+   pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make mingw-w64-x86_64-sdl2 mingw-w64-x86_64-sdl2_image mingw-w64-x86_64-sdl2_ttf mingw-w64-x86_64-sdl2_mixer
+   ```
+3. Navigate to the project directory, then build and run:
+   ```bash
+   mingw32-make
+   ./antigravity.exe
+   ```
 
-```
-Question text here|Answer A|Answer B|Answer C|1
-```
-Last field is the correct answer index (1, 2, or 3).
-
-### Task 5.2 — Init & display enigme from file (1 pt)
-The `Question` struct is declared in `enigme1.h`:
-```c
-typedef struct {
-    char question[256];
-    char choix[3][128];
-    int  bonneReponse;   /* 1, 2, or 3 */
-    int  dejaVue;        /* 0=not seen, 1=already shown */
-} Question;
-```
-
-`initEnigme1(const char *fichier)` already parses `questions.txt` — check the stub.
-
-Implement `afficherEnigme1(SDL_Renderer *ren, TTF_Font *font, Question *q)`:
-- Render the question text at center screen
-- Render 3 answer buttons labeled A, B, C
-- Highlight hovered button on mouse motion
-
-### Task 5.3 — Random no-repeat generation (1.5 pts)
-`genererQuestion` stub already handles the no-repeat cycle logic.
-Verify it and complete the display integration.
-
-### Task 5.4 — Resolution + score/life/level management (1.5 pts)
-`resolveEnigme1` stub already wires up `ajouterScore`, `perdreVie`, and `backg->limiteSec`.
-Add sound effects and complete the integration.
-
-### Task 5.5 — Enigme countdown animation (1.5 pts)
-Implement `initChronometre(int duree)` and `afficherChronometre(SDL_Renderer *ren)`:
-- Do NOT display a number — display a **graphical arc** that shrinks:
-  - Use `SDL_RenderDrawLine` to approximate an arc (or a shrinking bar)
-  - Color transitions: green (>20s) → orange (10-20s) → red (<10s)
-- When time runs out: call `resolveEnigme1` with a wrong answer automatically
-
-### Task 5.6 — Enigme sub-menu (1.5 pts)
-Implement `afficherSousMenuEnigme(SDL_Renderer *ren)`:
-- Show question number (randomly chosen between 1 and 10)
-- Display a "Tirage au sort" animation (spinning wheel / random number flash)
-- Allow choosing enigme type if both Lot 5 and Lot 6 are available (QCM vs Puzzle)
-
----
-
-## Interfaces with other lots
-
-| Who calls you | What they need |
-|---|---|
-| `main.c` | `initEnigme1`, `afficherEnigme1`, `genererQuestion`, `resolveEnigme1` |
-| Lot 2 | You SET `backg->niveau = "Enigme"` / `"Jouer"` |
-| Lot 1 | You call `ajouterScore(&joueur, pts)` and `perdreVie(&joueur)` |
-
----
-
-## Include & compile
-
-```c
-#include "../common.h"
-#include "enigme1.h"
-extern Background *backg;
-```
-
----
-
-## Git workflow
-
+### Linux / WSL
 ```bash
-git checkout -b feature/lot5-enigme1
-git add lot5_enigme1/enigme1.h lot5_enigme1/enigme1.c lot5_enigme1/questions.txt
-git commit -m "lot5: task 5.1 — questions.txt with 10 questions"
-git push origin feature/lot5-enigme1
+sudo apt update
+sudo apt install build-essential libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
+make
+./antigravity
 ```
+
+### macOS (Homebrew)
+```bash
+brew install make sdl2 sdl2_image sdl2_ttf sdl2_mixer
+make
+./antigravity
+```
+
+## Rules
+1. Each student works ONLY in their lot folder.
+2. Shared types go in `common.h` only — never duplicated.
+3. PRs target `main`. Must compile with 0 errors before merge.
+4. Commit message format: `lotN: short description`
+5. Place asset files in `assets/` — never hardcode absolute paths.
+
+## Game loop states
+
+```
+backg->niveau values:
+  "Menu"    → show main menu buttons
+  "Options" → show volume/display buttons
+  "Jouer"   → show player + enemies + platforms
+  "Enigme"  → show QCM or Puzzle riddle screen
+```
+
+## Folder structure
+
+```
+antigravity/
+├── main.c
+├── common.h
+├── Makefile
+├── scores.dat              (created at runtime)
+├── assets/
+│   ├── images/             (provide PNG files here)
+│   ├── sounds/             (provide OGG/WAV files here)
+│   └── fonts/              (provide TTF files here)
+├── lot1_joueur/
+├── lot2_background/        ← FULLY IMPLEMENTED
+├── lot3_npc/
+├── lot4_minimap/
+├── lot5_enigme1/
+└── lot6_enigme2/
+```
+
+## Asset checklist
+
+Place these files in `assets/` before compiling:
+
+| File | Used by |
+|---|---|
+| `assets/images/bg_level1.png` | Lot 2 — Level 1 background |
+| `assets/images/bg_level2.png` | Lot 2 — Level 2 background |
+| `assets/images/platform_fixe.png` | Lot 2 — Fixed platform |
+| `assets/images/platform_mobile.png` | Lot 2 — Moving platform |
+| `assets/images/platform_destructible.png` | Lot 2 — Breakable platform |
+| `assets/sounds/bg_music.ogg` | main.c — Background music |
+| `assets/sounds/click.wav` | Buttons |
+| `assets/fonts/game_font.ttf` | All text rendering |
