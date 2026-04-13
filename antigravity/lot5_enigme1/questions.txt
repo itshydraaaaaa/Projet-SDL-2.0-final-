@@ -1,0 +1,10 @@
+Quel est le prenom du garcon dans Home Alone?|Kevin|Buzz|Harry|1
+Comment s'appelle le pere de Kevin?|Peter|John|Tom|1
+Quel est le nom des cambrioleurs?|Wet Bandits|Sticky Bandits|Dirty Bandits|1
+Dans quelle ville se deroule Home Alone?|Chicago|New York|Los Angeles|1
+Quel est le surnom du cambrioleur joue par Joe Pesci?|Harry|Marv|Leo|1
+Quel objet Kevin utilise-t-il pour glisser dans les escaliers?|Luge|Planche à repasser|Tapis|2
+Quel est le nom du voisin que Kevin craint au debut?|Old Man Marley|Mr. Johnson|Mr. Cooper|1
+Quel film regarde Kevin dans Home Alone?|Angels with Dirty Souls|Home Alone|The Grinch|1
+Que dit Kevin quand il pose ses pieges?|This is my house!|Get out!|I'm not afraid!|1
+Combien de membres compte la famille McCallister?|11|13|15|2
